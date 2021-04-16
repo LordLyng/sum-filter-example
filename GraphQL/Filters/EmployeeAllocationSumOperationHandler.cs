@@ -26,11 +26,9 @@ namespace AllocationIssue.GraphQL.Filters
             var ts = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             var property = context.GetInstance();
 
-            var member = field.Member;
-
-            Expression<Func<ICollection<Allocation>, double>> expression = _ => _
-                .Where(_ => _.Start < ts && _.End > ts)
-                .Sum(_ => _.HoursPerWeek);
+            Expression<Func<ICollection<Allocation>, double>> expression = allocations => allocations
+                .Where(allocation => allocation.Start < ts && allocation.End > ts)
+                .Sum(allocation => allocation.HoursPerWeek);
             var invoke = Expression.Invoke(expression, property);
             context.PushInstance(invoke);
             action = SyntaxVisitor.Continue;
