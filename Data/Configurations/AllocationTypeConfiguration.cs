@@ -13,7 +13,9 @@ namespace AllocationIssue.Data.Configurations
             builder.Property(a => a.Id).HasMaxLength(36);
             builder.Property(a => a.HoursPerWeek).IsRequired();
             builder.Property(a => a.Start).IsRequired();
+            builder.HasIndex(a => a.Start);
             builder.Property(a => a.End).IsRequired();
+            builder.HasIndex(a => a.End);
 
             builder.HasOne(a => a.Employee).WithMany(e => e.Allocations).HasForeignKey(a => a.EmployeeId);
             builder.HasOne(a => a.Task).WithMany(e => e.Allocations).HasForeignKey(a => a.TaskId);

@@ -1,10 +1,8 @@
 using AllocationIssue.Data;
 using AllocationIssue.Data.Entities;
 using AllocationIssue.GraphQL;
-using AllocationIssue.GraphQL.Filters;
 using Bogus;
 using Bogus.DataSets;
-using HotChocolate.Data.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -37,13 +35,9 @@ namespace AllocationIssue
 
             services.AddGraphQLServer()
                 .AddQueryType<EmployeeQuery>()
-                .AddType<EmployeeType>()
                 .AddProjections()
                 .AddFiltering()
-                .AddConvention<IFilterConvention, CustomFilterConventionExtension>()
                 .AddSorting();
-
-            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -110,7 +104,6 @@ namespace AllocationIssue
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGraphQL();
-                endpoints.MapControllers();
             });
         }
     }
